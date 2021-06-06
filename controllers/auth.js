@@ -15,7 +15,7 @@ const verification = async (req, res, next) => {
       const verifyToken = newEmail.getVerifyToken();
       await newEmail.save();
 
-      const verifyUrl = `http://localhost:3000/register/${verifyToken}`;
+      const verifyUrl = `https://hazardnote.herokuapp.com/register/${verifyToken}`;
       const message = `
       <h3>Complete your registration to enjoy more</h3>
       <p>Please click on the link below to create an account</p>
@@ -106,7 +106,7 @@ const forgotPassword = async (req, res, next) => {
       const resetToken = user.getResetToken();
       await user.save();
 
-      const resetUrl = `http://localhost:3000/resetpassword/${resetToken}`;
+      const resetUrl = `https://hazardnote.herokuapp.com/resetpassword/${resetToken}`;
       const message = `
       <h3>You have requested a password reset</h3>
       <p>Click on the link below to reset your password</p>
