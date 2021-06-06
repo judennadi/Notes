@@ -7,13 +7,13 @@ const noteSchema = new Schema(
       type: String,
       required: [true, "Title must not be blank"],
     },
-    category: {
-      type: String,
-      required: true,
-    },
+
     details: {
       type: String,
-      required: [true, "note must not be blank"],
+      required: [true, "Note must not be blank"],
+    },
+    image: {
+      type: String,
     },
     creator: {
       type: String,

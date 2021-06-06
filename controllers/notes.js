@@ -2,11 +2,11 @@ const Note = require("../models/Note");
 const User = require("../models/User");
 
 const create_post = async (req, res) => {
-  const { title, category, details } = req.body;
+  const { title, details, image } = req.body;
   const { _id } = req.user;
 
   try {
-    await Note.create({ title, category, details, creator: _id });
+    await Note.create({ title, details, image, creator: _id });
 
     res.status(201).json({ message: "Note created successfully" });
   } catch (error) {

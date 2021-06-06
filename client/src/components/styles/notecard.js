@@ -23,8 +23,8 @@ export default makeStyles({
   titleDark: {
     color: "#ddd",
   },
-  // media: {
-  //   height: 0,
-  //   paddingTop: "56.25%", // 16:9
-  // },
+  media: {
+    height: 140,
+    // paddingTop: "56.25%", // 16:9
+  },
 });

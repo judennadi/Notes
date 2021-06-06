@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -18,11 +19,14 @@ const NoteCard = ({ note, handleDelete }) => {
   const { isDarkMode } = useContext(AuthContext);
   const classes = useStyles(note);
 
+  console.log(note.image);
+
   return (
     <>
       <Card elevation={2} style={isDarkMode ? { background: "#333", color: "#fff" } : null}>
-        <CardMedia className={classes.media} height={note.image ? 140 : ""} image="" />
-        {/* <CardHeader
+        <Link to={`/notes/${note._id}`}>
+          <CardMedia className={note.image ? classes.media : null} component="img" src={note.image} />
+          {/* <CardHeader
           avatar={<Avatar src={note.creator ? note.creator.image : ""} className={classes.avatar}></Avatar>}
           title={note.title}
           subheader={note.category}
@@ -32,26 +36,21 @@ const NoteCard = ({ note, handleDelete }) => {
               : { title: classes.titleDark, subheader: classes.titleDark }
           }
         /> */}
-        <CardContent>
-          <Typography variant="h6" color="textSecondary" style={isDarkMode ? { color: "#ddd" } : null}>
-            {note.title}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            component="p"
-            style={isDarkMode ? { color: "#ddd" } : null}
-          >
-            {note.details}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Avatar src={note.creator ? note.creator.image : ""}></Avatar>
-          <Typography>{note.creator ? note.creator.username : ""}</Typography>
-          <IconButton aria-label="settings" style={{ marginLeft: "auto", color: "#fff" }}>
-            <MoreVertIcon />
-          </IconButton>
-        </CardActions>
+          <CardContent>
+            <Typography variant="h6" color="textSecondary" style={isDarkMode ? { color: "#ddd" } : null}>
+              {note.title}
+            </Typography>
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              component="p"
+              style={isDarkMode ? { color: "#ddd" } : null}
+            >
+              {note.details}
+            </Typography>
+          </CardContent>
+        </Link>
+        <CardActions></CardActions>
       </Card>
     </>
   );

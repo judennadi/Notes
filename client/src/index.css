@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap");
 
-html{
+html {
   height: 100vh;
 }
 body {
@@ -98,6 +98,14 @@ a {
   background: inherit;
   display: grid;
   place-items: center;
+}
+
+.img-create {
+  width: auto;
+  padding: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  border-radius: 5px;
 }
 
 @media screen and (min-width: 600px) {

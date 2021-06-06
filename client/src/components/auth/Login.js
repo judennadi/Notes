@@ -41,7 +41,7 @@ const Login = ({ history }) => {
           </div>
           <div
             className="form-con"
-            style={isDarkMode ? { background: "rgba(0,0,0,0.9)", color: "#ddd" } : { color: "#000" }}
+            style={isDarkMode ? { background: "#333", color: "#ddd" } : { color: "#000" }}
           >
             <Typography variant="h6" color="secondary" className={classes.loginH}>
               LOGIN TO YOUR ACCOUNT

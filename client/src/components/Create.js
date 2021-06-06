@@ -1,17 +1,7 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import {
-  Typography,
-  Button,
-  Container,
-  TextField,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  FormLabel,
-  FormControl,
-} from "@material-ui/core";
-import SendIcon from "@material-ui/icons/Send";
+import { Typography, Button, Container, TextField } from "@material-ui/core";
+import Resizer from "react-image-file-resizer";
 import { AuthContext } from "../context/AuthContextProvider";
 import useStyles from "./styles/auth";
 
@@ -20,9 +10,37 @@ export default function Create({ history }) {
   const classes = useStyles();
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
+  const [image, setImage] = useState("");
+  const [imgName, setImgName] = useState("");
   const [titleError, setTitleError] = useState(false);
   const [detailsError, setDetailsError] = useState(false);
-  const [category, setCategory] = useState("money");
+
+  const handleFile = async (e) => {
+    let isFileInput = false;
+    setImgName(e.target.files[0].name);
+    if (e.target.files[0]) {
+      isFileInput = true;
+    }
+
+    if (isFileInput) {
+      try {
+        Resizer.imageFileResizer(
+          e.target.files[0],
+          300,
+          300,
+          "PNG",
+          100,
+          0,
+          (uri) => {
+            setImage(uri);
+          },
+          "base64"
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +66,7 @@ export default function Create({ history }) {
 
     if (title && details) {
       try {
-        await axios.post("/notes/create", { title, category, details }, config);
+        await axios.post("/notes/create", { title, details, image }, config);
         history.push("/");
       } catch (error) {
         console.log(error.response.data);
@@ -66,44 +84,49 @@ export default function Create({ history }) {
       </Typography>
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-        <TextField
-          onChange={(e) => setTitle(e.target.value)}
-          className={isDarkMode ? classes.root : classes.field}
-          label="Note Title"
-          variant="outlined"
-          fullWidth
-          required
-          error={titleError}
-          InputLabelProps={isDarkMode ? { className: classes.textLab } : null}
-          InputProps={isDarkMode ? { style: { color: "#fff" } } : null}
-        />
-        <TextField
-          onChange={(e) => setDetails(e.target.value)}
-          className={isDarkMode ? classes.root : classes.field}
-          label="Details"
-          variant="outlined"
-          multiline
-          rows={4}
-          fullWidth
-          required
-          error={detailsError}
-          InputLabelProps={isDarkMode ? { className: classes.textLab } : null}
-          InputProps={isDarkMode ? { style: { color: "#fff" } } : null}
-        />
+        <div style={{ width: "100%", display: "grid", placeItems: "center" }}>
+          <TextField
+            onChange={(e) => setTitle(e.target.value)}
+            className={isDarkMode ? classes.root : classes.field}
+            label="Note Title"
+            variant="outlined"
+            fullWidth
+            required
+            error={titleError}
+            InputLabelProps={isDarkMode ? { className: classes.textLab } : null}
+            InputProps={isDarkMode ? { style: { color: "#fff" } } : null}
+          />
+          <TextField
+            onChange={(e) => setDetails(e.target.value)}
+            className={isDarkMode ? classes.root : classes.field}
+            label="Details"
+            variant="outlined"
+            multiline
+            rows={4}
+            fullWidth
+            required
+            error={detailsError}
+            InputLabelProps={isDarkMode ? { className: classes.textLab } : null}
+            InputProps={isDarkMode ? { style: { color: "#fff" } } : null}
+          />
+          <div className="img-create" style={isDarkMode ? { background: "#333", color: "#ddd" } : null}>
+            <label htmlFor="dp" style={{ placeSelf: "center" }}>
+              <input id="dp" type="file" accept="image/*" onChange={handleFile} style={{ display: "none" }} />
+              <Button
+                component="span"
+                variant="outlined"
+                style={isDarkMode ? { border: " 1px solid #ddd", color: "#ddd" } : null}
+              >
+                Select Image
+              </Button>
+            </label>
+            {imgName && <span style={{ fontSize: "14px", marginLeft: "20px" }}>{imgName}</span>}
+          </div>
 
-        <FormControl className={classes.field} style={isDarkMode ? { color: "#ddd" } : null}>
-          <FormLabel style={isDarkMode ? { color: "#ddd" } : null}>Note Category</FormLabel>
-          <RadioGroup value={category} onChange={(e) => setCategory(e.target.value)}>
-            <FormControlLabel value="money" control={<Radio />} label="Money" />
-            <FormControlLabel value="todos" control={<Radio />} label="Todos" />
-            <FormControlLabel value="reminders" control={<Radio />} label="Reminders" />
-            <FormControlLabel value="work" control={<Radio />} label="Work" />
-          </RadioGroup>
-        </FormControl>
-
-        <Button type="submit" variant="contained" color="secondary" endIcon={<SendIcon />}>
-          Submit
-        </Button>
+          <Button type="submit" variant="contained" color="secondary">
+            Submit
+          </Button>
+        </div>
       </form>
     </Container>
   );
