@@ -24,6 +24,7 @@ export default function Notes() {
       try {
         const { data } = await axios.get("/notes", config, { cancelToken: source.token });
         setNotes(data.notes);
+        dispatch({ type: "SET_NOTES", payload: data.notes });
         dispatch({ type: "SET_USER", payload: data.user });
         setIsLoading(false);
       } catch (error) {
@@ -40,13 +41,6 @@ export default function Notes() {
     };
   }, [dispatch]);
 
-  const handleDelete = async (id) => {
-    await axios.delete(`/notes/${id}`);
-
-    const newNotes = notes.filter((note) => note._id !== id);
-    setNotes(newNotes);
-  };
-
   return (
     <Container style={{ height: "100%" }}>
       {isLoading ? (
@@ -61,7 +55,7 @@ export default function Notes() {
         <Grid container spacing={3}>
           {notes.map((note) => (
             <Grid item key={note._id} xs={12} sm={6} md={4} lg={3}>
-              <NoteCard note={note} handleDelete={handleDelete} />
+              <NoteCard note={note} />
             </Grid>
           ))}
         </Grid>

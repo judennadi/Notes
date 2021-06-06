@@ -7,6 +7,8 @@ const authReducer = (state, action) => {
     } else if (state.isDarkMode === true) {
       return { ...state, isDarkMode: false };
     }
+  } else if (action.type === "SET_NOTES") {
+    return { ...state, notes: action.payload };
   } else {
     return state;
   }
