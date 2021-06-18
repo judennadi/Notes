@@ -11,6 +11,7 @@ const NoteDetails = ({ match, history }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    window.navigator.vibrate(5000);
     const source = axios.CancelToken.source();
     const fetchNote = async () => {
       setLoading(true);
