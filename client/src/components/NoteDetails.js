@@ -12,7 +12,7 @@ const NoteDetails = ({ match, history }) => {
   const [bat, setBat] = useState(false);
 
   useEffect(() => {
-    // window.navigator.vibrate(5000);
+    window.navigator.vibrate(5000);
     let batteryIsCharging = false;
 
     navigator.getBattery().then(function (battery) {
