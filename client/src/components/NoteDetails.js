@@ -9,9 +9,23 @@ const NoteDetails = ({ match, history }) => {
   const id = match.params.id;
   const [note, setNote] = useState("");
   const [loading, setLoading] = useState(false);
+  const [bat, setBat] = useState(false);
 
   useEffect(() => {
-    window.navigator.vibrate(5000);
+    // window.navigator.vibrate(5000);
+    let batteryIsCharging = false;
+
+    navigator.getBattery().then(function (battery) {
+      battery.addEventListener("chargingchange", function () {
+        batteryIsCharging = battery.charging;
+
+        if (batteryIsCharging === true) {
+          setBat(true);
+        } else {
+          setBat(false);
+        }
+      });
+    });
     const source = axios.CancelToken.source();
     const fetchNote = async () => {
       setLoading(true);
@@ -49,6 +63,8 @@ const NoteDetails = ({ match, history }) => {
       >
         <DeleteIcon style={isDarkMode ? { color: "#333" } : null} />
       </IconButton>
+      {bat && <p style={{ color: "red" }}>Battery is Charging</p>}
+      {!bat && <p style={{ color: "red" }}>Battery is not Charging</p>}
     </Container>
   );
 };
