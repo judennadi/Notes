@@ -45,21 +45,21 @@ const register = async (req, res, next) => {
   const { username, email, password } = req.body;
   const verificationToken = crypto.createHash("sha256").update(req.params.verifyToken).digest("hex");
   try {
-    const newEmail = await VerifyEmail.findOne({
-      verificationToken: verificationToken,
-      verificationExpire: { $gt: Date.now() },
-    });
-    if (!newEmail) {
-      return next(new ErrorResponse("Sorry, this Registration link has expired", 400));
-    } else if (newEmail.email !== email) {
-      return next(new ErrorResponse("Email does not match the email we want to verify"));
-    } else {
-      const user = await User.create({ username, email, password });
-      const token = user.getSignedToken();
-      res.cookie("token", token, { httpOnly: true, maxAge: process.env.MAX_AGE * 1000 });
-      res.cookie("check", "check", { maxAge: process.env.MAX_AGE * 1000 });
-      res.status(201).json(user);
-    }
+    // const newEmail = await VerifyEmail.findOne({
+    //   verificationToken: verificationToken,
+    //   verificationExpire: { $gt: Date.now() },
+    // });
+    // if (!newEmail) {
+    //   return next(new ErrorResponse("Sorry, this Registration link has expired", 400));
+    // } else if (newEmail.email !== email) {
+    //   return next(new ErrorResponse("Email does not match the email we want to verify"));
+    // } else {
+    const user = await User.create({ username, email, password });
+    const token = user.getSignedToken();
+    res.cookie("token", token, { httpOnly: true, maxAge: process.env.MAX_AGE * 1000 });
+    res.cookie("check", "check", { maxAge: process.env.MAX_AGE * 1000 });
+    res.status(201).json(user);
+    // }
   } catch (error) {
     next(error);
   }

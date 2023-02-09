@@ -84,7 +84,7 @@ const Login = ({ history }) => {
                 <Typography className={classes.btnText}>LOGIN</Typography>
               </Button>
               <p>
-                <Link to="/verification">Don't have an account? Register</Link>
+                <Link to="/register/user">Don't have an account? Register</Link>
               </p>
               <p>
                 <Link to="/forgotpassword">Forgot Password?</Link>

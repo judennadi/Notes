@@ -140,7 +140,7 @@ const Register = ({ history, match }) => {
                 <Typography className={classes.btnText}>REGISTER</Typography>
               </Button>
               <p>
-                <Link to="/register">Already have an account? Login</Link>
+                <Link to="/login">Already have an account? Login</Link>
               </p>
             </form>
             {user && (
