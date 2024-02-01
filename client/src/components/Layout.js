@@ -42,7 +42,7 @@ const Layout = (props) => {
                     Login
                   </Button>
                 </Link>
-                <Link to="/verification">
+                <Link to="/register/user">
                   <Button variant="contained" color="secondary">
                     Register
                   </Button>
